@@ -11,7 +11,7 @@ public class Account {
 
     private String company;
 
-    private String user;
+    private String username;
 
     private String password;
 
@@ -22,10 +22,10 @@ public class Account {
     public Account() {
     }
 
-    public Account(long id, String company, String user, String password, Client client, Retailer retailer) {
+    public Account(long id, String company, String username, String password, Client client, Retailer retailer) {
         this.id = id;
         this.company = company;
-        this.user = user;
+        this.username = username;
         this.password = password;
         this.client = client;
         this.retailer = retailer;
@@ -47,12 +47,12 @@ public class Account {
         this.company = company;
     }
 
-    public String getUser() {
-        return user;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUser(String user) {
-        this.user = user;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -77,5 +77,30 @@ public class Account {
 
     public void setRetailer(Retailer retailer) {
         this.retailer = retailer;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Account account = (Account) o;
+
+        if (company != null ? !company.equals(account.company) : account.company != null) return false;
+        if (!username.equals(account.username)) return false;
+        if (!password.equals(account.password)) return false;
+        if (!client.equals(account.client)) return false;
+        return retailer.equals(account.retailer);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = company != null ? company.hashCode() : 0;
+        result = 31 * result + username.hashCode();
+        result = 31 * result + password.hashCode();
+        result = 31 * result + client.hashCode();
+        result = 31 * result + retailer.hashCode();
+        return result;
     }
 }

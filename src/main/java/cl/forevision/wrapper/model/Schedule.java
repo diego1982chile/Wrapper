@@ -36,4 +36,23 @@ public class Schedule {
     public String toString() {
         return "{" + retailer.getName() + "," + schedule + "}";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Schedule schedule1 = (Schedule) o;
+
+        if (!retailer.equals(schedule1.retailer)) return false;
+        return schedule.equals(schedule1.schedule);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = retailer.hashCode();
+        result = 31 * result + schedule.hashCode();
+        return result;
+    }
 }

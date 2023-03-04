@@ -95,6 +95,10 @@ public class Main {
 
             TokenHelper.getInstance().start();
 
+            while(ConfigHelper.getInstance().getParameter(TOKEN.getParameter()) == null) {
+                Thread.sleep(1000);
+            }
+
             logger.log(Level.INFO, "Loading parameters from ScrapperConfig...");
             ParamsHelper.getInstance().loadParameters();
 

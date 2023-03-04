@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
@@ -121,6 +122,41 @@ public class ParamsHelper {
         conn.disconnect();
 
     }
+
+    public List<Parameter> getParameters() throws IOException, MissingParameterException {
+
+        List<Parameter> parameters = new ArrayList<>();
+
+        HttpURLConnection conn = ConnectionHelper.getInstance().getConnection(PARAMETERS_ENDPOINT);
+
+        if (conn.getResponseCode() != 200) {
+            throw new RuntimeException("Failed : HTTP error code : "
+                    + conn.getResponseCode());
+        }
+
+        BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
+
+        String output;
+
+        while ((output = br.readLine()) != null) {
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+            ObjectReader objectReader = mapper.reader().forType(new TypeReference<List<Parameter>>() {
+            });
+
+            parameters = objectReader.readValue(output);
+
+            if(parameters.isEmpty()) {
+                throw new MissingParameterException("Empty parameter list retrieved from ScrapperConfig!!");
+            }
+        }
+
+        conn.disconnect();
+
+        return parameters;
+
+    }
+
 
 
 }

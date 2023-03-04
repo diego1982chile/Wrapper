@@ -76,26 +76,6 @@ public class TokenHelper {
 
         HttpURLConnection conn = ConnectionHelper.getInstance().getConnection(TOKEN_ENDPOINT);
 
-        // For POST only - START
-        conn.setDoOutput(true);
-        OutputStream os = conn.getOutputStream();
-
-        String username = ConfigHelper.getInstance().getParameter(USER_NAME.getParameter());
-        String password = ConfigHelper.getInstance().getParameter(PASSWORD.getParameter());
-
-        //String jsonInputString = "{\"username\": \"" + user + "\", \"password\": \"" + password + "\"}";
-
-        JSONObject user = new JSONObject();
-
-        user.put("username", username);
-        user.put("password", password);
-
-        os.write(user.toString().getBytes("utf-8"));
-        os.flush();
-        os.close();
-
-        // For POST only - END
-
         if (conn.getResponseCode() != 200) {
             throw new RuntimeException("Failed : HTTP error code : "
                     + conn.getResponseCode());
