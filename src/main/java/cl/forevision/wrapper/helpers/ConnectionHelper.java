@@ -25,6 +25,8 @@ public class ConnectionHelper {
 
     private static final Logger logger = Logger.getLogger(ConnectionHelper.class.getName());
 
+    HttpURLConnection conn;
+
     /**
      * Constructor privado para el Singleton del Factory.
      */
@@ -36,11 +38,10 @@ public class ConnectionHelper {
         return instance;
     }
 
-    public HttpURLConnection getConnection(String path) throws IOException {
+    synchronized HttpURLConnection getConnection(String path) throws IOException {
 
         URL url = new URL(path);
 
-        HttpURLConnection conn;;
 
         if(url.openConnection() instanceof HttpsURLConnection) {
             conn = (HttpsURLConnection) url.openConnection();

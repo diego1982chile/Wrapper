@@ -2,6 +2,7 @@ package cl.forevision.wrapper.helpers;
 
 import cl.forevision.wrapper.model.*;
 import com.google.common.collect.Sets;
+import javafx.application.Platform;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -50,7 +51,11 @@ public class PollingHelper {
     }
 
     public void start() {
+
+
         timer.schedule( new TimerTask() {
+
+
             public void run() {
                 try {
                     poll();
