@@ -8,6 +8,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.jcabi.aspects.RetryOnFailure;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.BufferedReader;
@@ -18,6 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.time.LocalDate;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -56,7 +58,7 @@ public class RetailerHelper {
         return instance;
     }
 
-
+    @RetryOnFailure(attempts = 3, delay = 1, unit = TimeUnit.SECONDS, types = {RuntimeException.class})
     public List<Retailer> getRetailers() throws Exception {
 
         List<Retailer> retailers = new ArrayList<>();

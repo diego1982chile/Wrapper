@@ -8,6 +8,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.jcabi.aspects.RetryOnFailure;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -43,6 +45,7 @@ public class AccountHelper {
         ACCOUNTS_ENDPOINT = ConfigHelper.getInstance().getParameter(BASE_URL_CONFIG.getParameter()) + "accounts/";
     }
 
+    @RetryOnFailure(attempts = 3, delay = 1, unit = TimeUnit.SECONDS, types = {RuntimeException.class})
     public List<Account> getAccounts() throws Exception {
 
         List<Account> accounts = new ArrayList<>();

@@ -3,6 +3,7 @@ package cl.forevision.wrapper.helpers;
 import cl.forevision.wrapper.model.Token;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jcabi.aspects.RetryOnFailure;
 import org.json.simple.JSONObject;
 
 import java.io.BufferedReader;
@@ -13,6 +14,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,13 +74,13 @@ public class TokenHelper {
         }, 0, 30*60*1000);
     }
 
+    @RetryOnFailure(attempts = 3, delay = 1, unit = TimeUnit.SECONDS, types = {RuntimeException.class})
     private void updateToken() throws IOException {
 
         HttpURLConnection conn = ConnectionHelper.getInstance().getConnection(TOKEN_ENDPOINT);
 
         if (conn.getResponseCode() != 200) {
-            throw new RuntimeException("Failed : HTTP error code : "
-                    + conn.getResponseCode());
+            throw new RuntimeException("Failed : HTTP error code : " + conn.getResponseCode());
         }
 
         BufferedReader br = new BufferedReader(new InputStreamReader((conn.getInputStream())));
@@ -98,7 +100,19 @@ public class TokenHelper {
 
     }
 
+    public boolean canLogin() throws IOException {
 
+        HttpURLConnection conn = ConnectionHelper.getInstance().getConnection(TOKEN_ENDPOINT);
+
+        return conn.getResponseCode() == 200;
+
+    }
+
+    public void stop() {
+        logger.log(Level.INFO, "Stopping TokenHelper...");
+        timer.cancel();
+        timer.purge();
+    }
 
 }
 

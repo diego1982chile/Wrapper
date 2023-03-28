@@ -11,11 +11,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import org.apache.commons.lang3.StringUtils;
 import sun.misc.IOUtils;
 
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.StringJoiner;
+import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
@@ -42,7 +44,6 @@ public class ScrapperTask implements Runnable {
         logger = Logger.getLogger(TokenHelper.class.getName());
         logger.addHandler(fh);
 
-
     }
 
     @Override
@@ -64,21 +65,31 @@ public class ScrapperTask implements Runnable {
 
             Thread.sleep(3000);
 
+            MainController mainController = ControllerHelper.getInstance().getMainController();
 
             PlatformHelper.run(() -> {
-                try {
-                    MainController mainController = ControllerHelper.getInstance().getMainController();
-
-                    Process p5 = pb.inheritIO().start();
-
-
-                    mainController.addTab(retailer);
-
-                }
-                catch(IOException e) {
-                    logger.log(Level.SEVERE, e.getMessage());
-                }
+                mainController.addTab(retailer);
             });
+
+            Process p5 = pb.start();
+
+            ProcessHelper.getInstance().registerInstance(retailer, p5);
+
+            OutputStream pOut = p5.getOutputStream();;
+            System.setOut(new PrintStream(pOut));
+            InputStream pIn = p5.getInputStream();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(pIn));
+
+
+            while (p5.isAlive()) {
+                Thread.sleep(100);
+                //System.out.println(UUID.randomUUID().toString());
+                String line = reader.readLine();
+
+                if(!line.isEmpty()) {
+                    mainController.appendText(retailer, line);
+                }
+            }
 
 
 

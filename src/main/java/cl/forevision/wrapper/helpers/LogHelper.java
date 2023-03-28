@@ -2,7 +2,9 @@ package cl.forevision.wrapper.helpers;
 
 
 import cl.forevision.wrapper.Log;
+import cl.forevision.wrapper.controllers.MainController;
 
+import java.io.*;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -69,6 +71,12 @@ public class LogHelper extends Handler {
         }
 
         Log log = new Log(string, record.getSourceClassName(), record.getSourceMethodName(), record.getMessage(), level);
+
+        MainController mainController = ControllerHelper.getInstance().getMainController();
+
+        PlatformHelper.run(() -> {
+            mainController.appendText("launcher", log.getMessage());
+        });
 
         if(!logs.contains(log)) {
             System.out.println(record.getMessage());

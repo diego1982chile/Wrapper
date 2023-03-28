@@ -6,6 +6,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
+import com.jcabi.aspects.RetryOnFailure;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,6 +15,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import static cl.forevision.wrapper.model.ParameterEnum.*;
@@ -93,6 +95,7 @@ public class ParamsHelper {
         return instance;
     }
 
+    @RetryOnFailure(attempts = 3, delay = 1, unit = TimeUnit.SECONDS, types = {RuntimeException.class})
     private void populateParameters() throws IOException, MissingParameterException {
 
         HttpURLConnection conn = ConnectionHelper.getInstance().getConnection(PARAMETERS_ENDPOINT);
@@ -123,6 +126,7 @@ public class ParamsHelper {
 
     }
 
+    @RetryOnFailure(attempts = 3, delay = 1, unit = TimeUnit.SECONDS, types = {RuntimeException.class})
     public List<Parameter> getParameters() throws IOException, MissingParameterException {
 
         List<Parameter> parameters = new ArrayList<>();

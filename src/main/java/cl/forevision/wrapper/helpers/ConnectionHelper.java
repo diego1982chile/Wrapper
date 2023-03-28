@@ -38,9 +38,29 @@ public class ConnectionHelper {
         return instance;
     }
 
+    public boolean healthCheck(String path) throws IOException {
+
+        URL url = new URL(path + "healthcheck");
+
+        if(url.openConnection() instanceof HttpsURLConnection) {
+            conn = (HttpsURLConnection) url.openConnection();
+        }
+        else {
+            conn = (HttpURLConnection) url.openConnection();
+        }
+
+        conn.setRequestMethod("GET");
+        conn.setRequestProperty("Accept", "application/json");
+
+        return conn.getResponseCode() == 200;
+
+    }
+
     synchronized HttpURLConnection getConnection(String path) throws IOException {
 
         URL url = new URL(path);
+        String[] tokens = path.split(":8");
+        String host = tokens[0];
 
 
         if(url.openConnection() instanceof HttpsURLConnection) {
@@ -49,6 +69,8 @@ public class ConnectionHelper {
         else {
             conn = (HttpURLConnection) url.openConnection();
         }
+
+        conn.setRequestProperty("Host", host);
 
         if(path.contains(ConfigHelper.getInstance().getParameter(BASE_URL_TOKEN.getParameter()))) {
             conn.setRequestMethod("POST");

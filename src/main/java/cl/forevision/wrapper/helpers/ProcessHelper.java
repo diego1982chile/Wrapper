@@ -32,6 +32,8 @@ public class ProcessHelper {
 
     ExecutorService service;
 
+    Map<String, Process> scrappers = new HashMap<>();
+
     /**
      * Constructor privado para el Singleton del Factory.
      */
@@ -45,6 +47,10 @@ public class ProcessHelper {
 
     public void restartInstances() throws Exception {
 
+        logger.log(Level.INFO, "Restaring instances...");
+
+        clearInstances();
+
         if (service != null) {
             service.shutdownNow();
         }
@@ -57,12 +63,41 @@ public class ProcessHelper {
 
     }
 
-    public void stoptInstances() throws Exception {
+    public void stopInstances() throws Exception {
+
+        logger.log(Level.INFO, "Stopping instances...");
+
+        clearInstances();
 
         if (service != null) {
             service.shutdownNow();
         }
 
+        PollingHelper.getInstance().stop();
+
+        TokenHelper.getInstance().stop();
+
     }
+
+    public void registerInstance(String retailer, Process process) {
+        if(scrappers.containsKey(retailer)) {
+            scrappers.get(retailer).destroy();
+        }
+        scrappers.put(retailer, process);
+    }
+
+    private void clearInstances() {
+
+        for (String s : scrappers.keySet()) {
+            scrappers.get(s).destroy();
+        }
+
+        scrappers.clear();
+    }
+
+    public boolean isProcessRunning() {
+        return !scrappers.isEmpty();
+    }
+
 
 }

@@ -76,6 +76,7 @@ public class PollingHelper {
         List<Schedule> schedules = ScheduleHelper.getInstance().getSchedules();
 
         if (hasChanged(accounts, retailers, parameters, schedules)) {
+            logger.log(Level.INFO, "Some changes have been detected. restarting instances...");
             ProcessHelper.getInstance().restartInstances();
             this.accounts = accounts;
             this.retailers = retailers;
@@ -119,6 +120,16 @@ public class PollingHelper {
 
         return false;
 
+    }
+
+    public void stop() {
+        logger.log(Level.INFO, "Stopping PollingHelper...");
+        this.accounts.clear();
+        this.retailers.clear();
+        this.parameters.clear();
+        this.schedules.clear();
+        timer.cancel();
+        timer.purge();
     }
 
 }

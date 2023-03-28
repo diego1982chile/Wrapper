@@ -1,0 +1,13 @@
+.tooltip {
+    -fx-background: rgb(255, 232, 49);
+    -fx-background-image: url("/Images/error.png");
+    -fx-border-color: black;
+    -fx-text-fill: black;
+    -fx-margin: 10px;
+}
+
+
+.custom-tooltip {
+    -fx-background: rgb(255, 232, 49);
+    -fx-background-image: url("/Images/error.png");
+}

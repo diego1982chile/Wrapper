@@ -189,7 +189,7 @@ public class ErrorHelper {
                 multipart.addBodyPart(messageBodyPart);
 
                 // attach images
-                attachImage(multipart, "<image1>", "/Images/Logo_CTL.webp");
+                attachImage(multipart, "<image1>", "/Images/forevision3.png");
 
                 attachImage(multipart, "<info>", "/Images/info.png");
 
