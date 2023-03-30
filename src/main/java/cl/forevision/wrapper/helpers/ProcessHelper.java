@@ -79,17 +79,21 @@ public class ProcessHelper {
 
     }
 
-    public void registerInstance(String retailer, Process process) {
+    void registerInstance(String retailer, Process process) {
         if(scrappers.containsKey(retailer)) {
             scrappers.get(retailer).destroy();
         }
         scrappers.put(retailer, process);
     }
 
-    private void clearInstances() {
+    private void clearInstances() throws IOException {
 
         for (String s : scrappers.keySet()) {
             scrappers.get(s).destroy();
+        }
+
+        if (!scrappers.isEmpty()) {
+            PlatformHelper.killBrowsers();
         }
 
         scrappers.clear();

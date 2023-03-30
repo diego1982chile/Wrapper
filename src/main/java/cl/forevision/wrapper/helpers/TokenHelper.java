@@ -63,6 +63,9 @@ public class TokenHelper {
     }
 
     public void start() {
+
+        timer  = new Timer();
+
         timer.schedule( new TimerTask() {
             public void run() {
                 try {

@@ -52,7 +52,7 @@ public class PollingHelper {
 
     public void start() {
 
-
+        timer  = new Timer();
         timer.schedule( new TimerTask() {
 
 

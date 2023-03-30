@@ -1,4 +1,6 @@
-Sun Mar 26 22:53:05 CLST 2023
+Thu Mar 30 00:23:03 CLST 2023
+[warning] build config error: skipping missing, empty or corrupt aspectpath entry: /root/.m2/repository/org/openjfx/javafx/11/javafx-11.pom
+	
 /root/.m2/repository/com/jcabi/jcabi-aspects/0.24.1/jcabi-aspects-0.24.1.jar!com/jcabi/aspects/aj/ImmutabilityChecker.class [warning] can not build thisJoinPoint lazily for this advice since it has no suitable guard [Xlint:noGuardForLazyTjp]
 	
 /root/.m2/repository/com/jcabi/jcabi-aspects/0.24.1/jcabi-aspects-0.24.1.jar!com/jcabi/aspects/aj/MethodCacher.class [warning] can not build thisJoinPoint lazily for this advice since it has no suitable guard [Xlint:noGuardForLazyTjp]
@@ -56,10 +58,10 @@ cl/forevision/wrapper/helpers/ParamsHelper.java:132 [warning] can not implement 
 	see also: /root/.m2/repository/com/jcabi/jcabi-aspects/0.24.1/jcabi-aspects-0.24.1.jar!com/jcabi/aspects/aj/Repeater.class::0
 Join point 'method-execution(java.util.List cl.forevision.wrapper.helpers.ParamsHelper.getParameters())' in Type 'cl.forevision.wrapper.helpers.ParamsHelper' (ParamsHelper.java:132) advised by around advice from 'com.jcabi.aspects.aj.Repeater' (jcabi-aspects-0.24.1.jar!Repeater.class(from Repeater.java))
 	
-cl/forevision/wrapper/helpers/TokenHelper.java:80 [warning] can not implement lazyTjp on this joinpoint method-execution(void cl.forevision.wrapper.helpers.TokenHelper.updateToken()) because around advice is used [Xlint:canNotImplementLazyTjp]
+cl/forevision/wrapper/helpers/TokenHelper.java:83 [warning] can not implement lazyTjp on this joinpoint method-execution(void cl.forevision.wrapper.helpers.TokenHelper.updateToken()) because around advice is used [Xlint:canNotImplementLazyTjp]
 	
 	see also: /root/.m2/repository/com/jcabi/jcabi-aspects/0.24.1/jcabi-aspects-0.24.1.jar!com/jcabi/aspects/aj/Repeater.class::0
-Join point 'method-execution(void cl.forevision.wrapper.helpers.TokenHelper.updateToken())' in Type 'cl.forevision.wrapper.helpers.TokenHelper' (TokenHelper.java:80) advised by around advice from 'com.jcabi.aspects.aj.Repeater' (jcabi-aspects-0.24.1.jar!Repeater.class(from Repeater.java))
+Join point 'method-execution(void cl.forevision.wrapper.helpers.TokenHelper.updateToken())' in Type 'cl.forevision.wrapper.helpers.TokenHelper' (TokenHelper.java:83) advised by around advice from 'com.jcabi.aspects.aj.Repeater' (jcabi-aspects-0.24.1.jar!Repeater.class(from Repeater.java))
 	
 /root/.m2/repository/com/jcabi/jcabi-aspects/0.24.1/jcabi-aspects-0.24.1.jar!com/jcabi/aspects/aj/MethodLogger.class [warning] advice defined in com.jcabi.aspects.aj.MethodLogger has not been applied [Xlint:adviceDidNotMatch]
 	

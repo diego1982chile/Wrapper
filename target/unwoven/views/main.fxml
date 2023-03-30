@@ -28,7 +28,7 @@
                 <VBox prefWidth="246.0" prefHeight="80.0">
 
                     <children>
-                        <Pane style="-fx-background-color: black;">
+                        <Pane style="-fx-background-color: #1d2733;">
                             <children>
                                 <ImageView  fitHeight="150.0" fitWidth="200.0" layoutX="20.0" pickOnBounds="true" preserveRatio="true">
                                     <image>
